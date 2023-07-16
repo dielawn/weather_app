@@ -94,20 +94,30 @@ function displayToday() {
         getCityName(), 
         [getCurrentTemp(), handleDegreeSymbol()],
         getCurrentText(), 
-        [getCurrentPrecip(), handleInOrMm()], 
-        getWindDir(), 
-        [getWindSpeed(), handleMphOrKph()], 
-        [getWindGust(), handleMphOrKph()], 
-        `${getUv()} uv`,
+        ['Precip: ', getCurrentPrecip(), handleInOrMm()], 
+        'Wind',
+        `Direction: ${getWindDir()}`, 
+        ['Speed: ',getWindSpeed(), handleMphOrKph()], 
+        ['Gust: ',getWindGust(), handleMphOrKph()], 
+        `UV: ${getUv()}`,
         `Clouds: ${getCloud()}`
     ]
 
     let prevElements = document.querySelectorAll('p')
+    let prevIcon = document.querySelector('img')
+
     if(prevElements.length > 0) {
         prevElements.forEach(element => {
             element.remove()
         })
     }
+
+    if(prevIcon) {
+        prevIcon.remove()
+    }
+    const iconImg = document.createElement('img')
+    iconImg.src = getCurrentIcon()
+    todayDiv.appendChild(iconImg)
     today.forEach(item => {   
     const textElement = document.createElement('p')
     if (typeof item === 'object') {
@@ -123,14 +133,21 @@ function displayToday() {
         textElement.textContent = editedTxt
       }
   todayDiv.appendChild(textElement)
+  
    })
-
+  
 }
 
+function displayDate() {
+    const dateElment = document.createElement('p')
+    dateElment.textContent = `${hourlyForecast[0].date}`
+    todayDiv.appendChild(dateElment)
+}
 
 function displayHourly() {
     getHourlyData()
     console.log(hourlyForecast)
+    displayDate()
     hourlyForecast.forEach(item => {
         const hourDiv = document.createElement('div')
         hourDiv.classList.add('hourDiv')
