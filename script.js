@@ -3,7 +3,8 @@ const searchInput = document.getElementById('searchInput')
 const searchBtn = document.getElementById('searchBtn')
 
 let city 
-let cityObject 
+const data = []
+let isMetric = false
 
 function handleCityValue() {
     if (!searchInput.value) {
@@ -16,101 +17,13 @@ function handleCityValue() {
 
 searchBtn.addEventListener('click', () => {
     handleCityValue()
-   return getData()
+    getForecastData()
+
 })
-
-
-
-async function getWeatherData() {
-    const url = `https://forecast9.p.rapidapi.com/rapidapi/forecast/${city}/summary/`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': 'fc4b3c660cmsh267568b5d8c8b79p1cadfcjsnd7198f8a0b37',
-            'X-RapidAPI-Host': 'forecast9.p.rapidapi.com'
-        }
-    };
-    
-    try {
-        const response = await fetch(url, options);
-        const result = await response.text();
-        let string = `{"key": ${result}}`;
-        let object = JSON.parse(string);
-        cityObject = object
-        console.log((object.key.location.name))
-        console.log((object.key.forecast.items))
-        tempData()
-        
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-function tempData() {
-   console.log((cityObject.key.forecast.items.length))
-   let tempData = cityObject.key.forecast.items
-   console.log(tempData[0])
-   for (const data of tempData) {
-    console.log(`Min: ${data.temperature.min} Max: ${data.temperature.max}`)
-    console.log(data.date)
-    console.log(city)
-    // console.log(`Precipitation; ${data.prec} Probability: ${data.prec.probability}`)
-    
-   }
-    
-   
-   
-}
-
-// handleCityValue()
-// getWeatherData()
-
-
-
-
-async function getCurrentData() {
-    
-    const url = `https://weatherapi-com.p.rapidapi.com/current.json?q=${city}`;
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': 'fc4b3c660cmsh267568b5d8c8b79p1cadfcjsnd7198f8a0b37',
-            'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
-        }
-    };
-    
-    try {
-        const response = await fetch(url, options)
-        const result = await response.text()
-        let string = `{"key": ${result}}`
-        let object = JSON.parse(string)
-        const currentObjectKey = object.key.current
-
-        console.log(`City of ${object.key.location.name}`)
-        console.log(`${currentObjectKey.temp_c}\u00B0 c`)
-        console.log(`${currentObjectKey.temp_f}\u00B0 f`)
-        console.log(`${currentObjectKey.condition.text}`)
-        console.log(`${currentObjectKey.condition.icon}`)
-        // console.log(`Precip: ${}`)
-        console.log(`Wind: ${currentObjectKey.wind_kph} Gust: ${currentObjectKey.gust_kph}`)
-        console.log(`Wind: ${currentObjectKey.wind_mph} Gust: ${currentObjectKey.gust_mph}`) 
-        console.log(`Humidity: ${currentObjectKey.humidity}`)
-        console.log(`Uv: ${currentObjectKey.uv}`)
-        console.log(`Is Day: ${currentObjectKey.is_day}`)
-        console.log(`Updated: ${currentObjectKey.last_updated}`)
-        console.log(`Precip in: ${currentObjectKey.precip_in}`)
-        console.log(`Precip mm: ${currentObjectKey.precip_mm}`)
-        console.log(currentObjectKey)
-    } catch (error) {
-        console.error(error)
-    }
-}
 
 
 handleCityValue()
 // getCurrentData()
-const data = []
-
 
 
 async function getForecastData() {
@@ -130,9 +43,7 @@ try {
     let object = JSON.parse(string)
     data.length = 0
     data.push(object)
-    console.log(data)
-   
-   
+    console.log(data)   
     logStuff()
 
 } catch (error) {
@@ -140,7 +51,7 @@ try {
 }
 }
 
-let isMetric = true
+
 
 function logStuff() {
     console.log(data)
@@ -149,6 +60,12 @@ function logStuff() {
     console.log(getCurrentText())
     console.log(getCurrentPrecip())
     console.log(getWindDir())
+    console.log(getWindSpeed())
+    console.log(getWindGust())
+    console.log(getUv())
+    console.log(getCloud())
+    getHourlyData()
+    console.log(hourlyForecast)
 
 
 }
@@ -197,33 +114,62 @@ function getWindDir() {
     return windDir
 }
 
-//forecast
-
-
-function getMinTempC() {
-    let minTempC = data[0].key.forecast.forecastday[0].day.mintemp_c
-    return minTempC
+function getWindSpeed() {
+    let windSpeed
+    if (isMetric) {
+        windSpeed = data[0].key.current.wind_kph
+    } else {
+        windSpeed = data[0].key.current.wind_mph
+    }
+    return windSpeed
 }
 
- // console.log(`City of ${object.key.location.name}`)
-    // const forecastDailyData = object.key.forecast
-    // console.log(forecastDailyData.forecastday[0].day)
-    // console.log(`${forecastDailyData.forecastday[0].date}`)
-    // console.log(forecastDailyData.forecastday[0].day.mintemp_c)
-    // console.log(forecastDailyData.forecastday[0].day.mintemp_f)
-    // console.log(forecastDailyData.forecastday[0].day.maxtemp_c)
-    // console.log(forecastDailyData.forecastday[0].day.maxtemp_f)
-    
-    // let day = `${forecastDailyData.forecastday[0].day}`
-    // let forecastDate = `${forecastDailyData.forecastday[0].date}`
-    // console.log(forecastDailyData.forecastday[0].day.mintemp_c)
-    // console.log(forecastDailyData.forecastday[0].day.mintemp_f)
-    // console.log(forecastDailyData.forecastday[0].day.maxtemp_c)
-    // console.log(forecastDailyData.forecastday[0].day.maxtemp_f)
-    // for (let i = 0; i < 23; i++) {
-    //     console.log(`${forecastDailyData.forecastday[0].hour[i].time}`)
-    //     console.log(`${forecastDailyData.forecastday[0].hour[i].temp_c}\u00B0 c`)
-    //     console.log(`${forecastDailyData.forecastday[0].hour[i].temp_f}\u00B0 f`)
-    // }
-    // console.log(`${forecastDailyData.forecastday[0].hour[0].time}`)
-    // console.log(forecastDailyData.forecastday[0])
+function getWindGust() {
+    let windGust
+    if (isMetric) {
+        windGust = data[0].key.current.gust_kph
+    } else {
+        windGust = data[0].key.current.gust_mph
+    }
+    return windGust
+}
+
+function getUv() {
+    let uv = data[0].key.current.uv
+    return uv
+}
+
+function getCloud() {
+    let cloud = data[0].key.current.cloud
+    return cloud
+}
+
+
+
+//forecast
+let hourlyForecast = []
+function getHourlyData() {
+    hourlyForecast.length = 0
+    let date
+    for (let i = 0; i < 24; i++) {
+        let timeDate = data[0].key.forecast.forecastday[0].hour[i].time
+        let splitDateTime = timeDate.split(" ")
+        date = splitDateTime[0]
+        let time = splitDateTime[1]
+        let temp 
+        if (isMetric) {
+            temp = data[0].key.forecast.forecastday[0].hour[i].temp_c
+        } else {
+            temp = data[0].key.forecast.forecastday[0].hour[i].temp_f
+        }
+        let is_day = Boolean(data[0].key.forecast.forecastday[0].hour[i].is_day)
+       hourlyForecast.push({
+        date: date,
+        time: time,
+        temp: temp,
+        isday: is_day
+    })
+    }
+    return hourlyForecast
+}
+
