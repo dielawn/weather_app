@@ -1,6 +1,9 @@
+
 const containerDiv = document.getElementById('container')
 const searchInput = document.getElementById('searchInput')
 const searchBtn = document.getElementById('searchBtn')
+const todayDiv = document.getElementById('todayDiv')
+const forecastDiv = document.getElementById('forecastDiv')
 
 let city 
 const data = []
@@ -18,6 +21,7 @@ function handleCityValue() {
 searchBtn.addEventListener('click', () => {
     handleCityValue()
     getForecastData()
+    displayToday()
 
 })
 
@@ -45,6 +49,7 @@ try {
     data.push(object)
     console.log(data)   
     displayToday()
+    displayHourly()
 
 } catch (error) {
 	console.error(error);
@@ -84,7 +89,7 @@ function handleMphOrKph() {
 
 
 function displayToday() {
-    console.log(data)
+
     const today = [
         getCityName(), 
         [getCurrentTemp(), handleDegreeSymbol()],
@@ -93,17 +98,52 @@ function displayToday() {
         getWindDir(), 
         [getWindSpeed(), handleMphOrKph()], 
         [getWindGust(), handleMphOrKph()], 
-        getUv(),
-        getCloud()
+        `${getUv()} uv`,
+        `Clouds: ${getCloud()}`
     ]
-console.log(today)
-   
+
+    let prevElements = document.querySelectorAll('p')
+    if(prevElements.length > 0) {
+        prevElements.forEach(element => {
+            element.remove()
+        })
+    }
+    today.forEach(item => {   
+    const textElement = document.createElement('p')
+    if (typeof item === 'object') {
+        const editedTxt = Object.values(item).map(value => {
+          if (typeof value === 'string') {
+            return value.replace(/,/g, ' ')
+          }
+          return value
+        })
+        textElement.textContent = editedTxt.join(' ')
+      } else {
+        const editedTxt = item.replace(/,/g, ' ')
+        textElement.textContent = editedTxt
+      }
+  todayDiv.appendChild(textElement)
+   })
+
 }
 
 
 function displayHourly() {
     getHourlyData()
     console.log(hourlyForecast)
+    hourlyForecast.forEach(item => {
+        const hourDiv = document.createElement('div')
+        hourDiv.classList.add('hourDiv')
+        forecastDiv.classList.add('grid8Cols')
+        forecastDiv.appendChild(hourDiv)
+        let timeTxt = document.createElement('p')
+        timeTxt.textContent = item.time
+        let tempTxt = document.createElement('p')
+        tempTxt.textContent = `${item.temp}${handleDegreeSymbol()}`
+        hourDiv.appendChild(timeTxt)
+        hourDiv.appendChild(tempTxt)
+
+    })
 }
 
 getForecastData()

@@ -3,3 +3,18 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid8Cols {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+}
