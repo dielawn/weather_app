@@ -44,30 +44,66 @@ try {
     data.length = 0
     data.push(object)
     console.log(data)   
-    logStuff()
+    displayToday()
 
 } catch (error) {
 	console.error(error);
 }
 }
 
+function handleDegreeSymbol() {
+    let tempUnit
+    if (isMetric) {
+        tempUnit = 'c'
+    } else {
+        tempUnit = 'f'
+    }
+    let degreeSymbol = `\u00B0${tempUnit}`
+    return degreeSymbol
+}
+
+function handleInOrMm() {
+    let measureUnit 
+    if (isMetric) {
+        measureUnit = 'mm'
+    } else {
+        measureUnit = 'in'
+    }
+    return measureUnit
+}
+
+function handleMphOrKph() {
+    let speedUnit 
+    if (isMetric) {
+        speedUnit = 'kph'
+    } else {
+        speedUnit = 'mph'
+    }
+    return speedUnit
+}
 
 
-function logStuff() {
+function displayToday() {
     console.log(data)
-    console.log( getCityName())    
-    console.log(getCurrentTemp())
-    console.log(getCurrentText())
-    console.log(getCurrentPrecip())
-    console.log(getWindDir())
-    console.log(getWindSpeed())
-    console.log(getWindGust())
-    console.log(getUv())
-    console.log(getCloud())
+    const today = [
+        getCityName(), 
+        [getCurrentTemp(), handleDegreeSymbol()],
+        getCurrentText(), 
+        [getCurrentPrecip(), handleInOrMm()], 
+        getWindDir(), 
+        [getWindSpeed(), handleMphOrKph()], 
+        [getWindGust(), handleMphOrKph()], 
+        getUv(),
+        getCloud()
+    ]
+console.log(today)
+   
+}
+
+
+function displayHourly() {
     getHourlyData()
     console.log(hourlyForecast)
-
-
 }
 
 getForecastData()
