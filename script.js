@@ -1,14 +1,49 @@
-
 const containerDiv = document.getElementById('container')
 const searchInput = document.getElementById('searchInput')
 const searchBtn = document.getElementById('searchBtn')
 const todayDiv = document.getElementById('todayDiv')
 const forecastDiv = document.getElementById('forecastDiv')
+const metricBtn = document.getElementById('metricBtn')
+const standardBtn = document.getElementById('standardBtn')
 
 
 let city 
 const data = []
-let isMetric = false
+let isMetric = handleMetric()
+let previousChart = null;
+
+console.log(isMetric)
+
+metricBtn.addEventListener('change', () => {
+   isMetric = handleMetric()
+    getForecastData()
+    displayDate()
+    displayToday()
+    displayHourly()
+    graphDailyTemp()
+    
+})
+
+standardBtn.addEventListener('change', () => {
+   isMetric = handleMetric()
+    getForecastData()
+    displayDate()
+    displayToday()
+    displayHourly()
+    graphDailyTemp()
+   
+})
+
+
+function handleMetric() {   
+   if (metricBtn.checked) {
+    return true
+   } else {
+    return false
+   }
+}
+
+
 
 function handleCityValue() {
     if (!searchInput.value) {
@@ -151,6 +186,12 @@ function displayHourly() {
     getHourlyData()
     console.log(hourlyForecast)
     displayDate()
+    const prevElements = document.querySelectorAll('.hourDiv')
+    if (prevElements.length > 0) {
+        prevElements.forEach(element => {
+            element.remove()
+        })
+    }
     hourlyForecast.forEach(item => {
         const hourDiv = document.createElement('div')
         hourDiv.classList.add('hourDiv')
@@ -178,13 +219,19 @@ function changeDivColor() {
 }
 
 function graphDailyTemp() {
+
+
    const temperatures = hourlyForecast.map(item => item.temp)
    const time = hourlyForecast.map(item => item.time)
 
    const canvas = document.getElementById('chartCanvas')
    const ctx = canvas.getContext('2d')
 
-   new Chart(ctx, {
+   if (previousChart) {
+    previousChart.destroy()
+   }
+
+  previousChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: time,
@@ -212,7 +259,7 @@ function getColorsByTemp(temperature) {
     let hotTemp
     if (isMetric) {
         coldTemp = 0;
-        hotTemp = 28
+        hotTemp = 32;
     } else {
         coldTemp = 34;
         hotTemp = 90;
