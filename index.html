@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="script.js" defer></script>
+   
+
 </head>
 <body>
     <div class="container" id="container">
-        <input type="text" class="searchInput" id="searchInput" placeholder="Search weather by location">
+        <div class="buttonDiv" id="buttonDiv">
+            <input type="text" class="searchInput" id="searchInput" placeholder="Search weather by location">
         <button class="searchBtn" id="searchBtn">Search</button>
+        </div>
         <div class="todayDiv" id="todayDiv"></div>
+        <canvas class="chartCanvas" id="chartCanvas"></canvas>
+
         <div class="forecastDiv" id="forecastDiv"></div>
+
     </div>
+    
+
 </body>
 </html>

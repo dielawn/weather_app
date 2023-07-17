@@ -50,7 +50,7 @@ try {
     console.log(data)   
     displayToday()
     displayHourly()
-
+    graphDailyTemp()
 } catch (error) {
 	console.error(error);
 }
@@ -117,6 +117,7 @@ function displayToday() {
     }
     const iconImg = document.createElement('img')
     iconImg.src = getCurrentIcon()
+    iconImg.classList.add('icon')
     todayDiv.appendChild(iconImg)
     today.forEach(item => {   
     const textElement = document.createElement('p')
@@ -161,6 +162,36 @@ function displayHourly() {
         hourDiv.appendChild(tempTxt)
 
     })
+}
+
+function graphDailyTemp() {
+   const temperatures = hourlyForecast.map(item => item.temp)
+   const time = hourlyForecast.map(item => item.time)
+
+   const canvas = document.getElementById('chartCanvas')
+   const ctx = canvas.getContext('2d')
+
+   new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: time,
+        datasets: [{
+            label: 'Todays Temperature',
+            data: temperatures,
+            borderColor: 'black',
+            fill: false,
+        }],
+    }, 
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                begainAtZero: false,
+            },
+        },
+    },
+   })
+
 }
 
 getForecastData()
