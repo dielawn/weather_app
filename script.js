@@ -5,6 +5,7 @@ const searchBtn = document.getElementById('searchBtn')
 const todayDiv = document.getElementById('todayDiv')
 const forecastDiv = document.getElementById('forecastDiv')
 
+
 let city 
 const data = []
 let isMetric = false
@@ -51,6 +52,7 @@ try {
     displayToday()
     displayHourly()
     graphDailyTemp()
+    changeDivColor()
 } catch (error) {
 	console.error(error);
 }
@@ -152,6 +154,9 @@ function displayHourly() {
     hourlyForecast.forEach(item => {
         const hourDiv = document.createElement('div')
         hourDiv.classList.add('hourDiv')
+        changeDivColor()
+    
+
         forecastDiv.classList.add('grid8Cols')
         forecastDiv.appendChild(hourDiv)
         let timeTxt = document.createElement('p')
@@ -162,6 +167,14 @@ function displayHourly() {
         hourDiv.appendChild(tempTxt)
 
     })
+}
+
+
+function changeDivColor() {
+  let hourDivs = document.querySelectorAll('.hourDiv')
+    for (let i = 0; i < hourDivs.length; i++) {
+        hourDivs[i].style.backgroundColor = getColorsByTemp(hourlyForecast[i].temp)
+    }
 }
 
 function graphDailyTemp() {
@@ -191,7 +204,23 @@ function graphDailyTemp() {
         },
     },
    })
+}
 
+
+function getColorsByTemp(temperature) {
+    let coldTemp
+    let hotTemp
+    if (isMetric) {
+        coldTemp = 0;
+        hotTemp = 28
+    } else {
+        coldTemp = 34;
+        hotTemp = 90;
+    }
+    const tempPercentage = (temperature - coldTemp) / (hotTemp - coldTemp)
+    const hue = (1 - tempPercentage) * 240
+    const color = `hs1(${hue}, 100%, 50%)`
+    return color
 }
 
 getForecastData()
