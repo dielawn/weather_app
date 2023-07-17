@@ -42,14 +42,12 @@
 
 .forecastDiv{
 width: 100%;
-justify-content: space-evenly;
+justify-content: center;
 margin-right: 30px;
 }
 
 .hourDiv {
-    margin: 15px;
     
-    padding: 10px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 75px;

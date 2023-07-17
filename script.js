@@ -219,7 +219,8 @@ function getColorsByTemp(temperature) {
     }
     const tempPercentage = (temperature - coldTemp) / (hotTemp - coldTemp)
     const hue = (1 - tempPercentage) * 240
-    const color = `hs1(${hue}, 100%, 50%)`
+    const color = `hsl(${hue}, 100%, 50%)`
+    console.log(color)
     return color
 }
 
