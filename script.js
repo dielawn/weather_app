@@ -9,10 +9,63 @@ const standardBtn = document.getElementById('standardBtn')
 
 let city 
 const data = []
+const gifData = []
 let isMetric = handleMetric()
 let previousChart = null;
 
-console.log(isMetric)
+let imageSrc
+let searchFor;
+// let searchFor = getCurrentText()
+
+//weather data
+async function getForecastData() {
+    const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${city}`;
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': 'fc4b3c660cmsh267568b5d8c8b79p1cadfcjsnd7198f8a0b37',
+		'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+	}
+};
+
+try {
+	const response = await fetch(url, options);
+	const result = await response.text()
+    let string = `{"key": ${result}}`
+    let object = JSON.parse(string)
+    data.length = 0
+    data.push(object)
+    console.log(data)   
+    displayToday()
+    displayHourly()
+    graphDailyTemp()
+    changeDivColor()
+    searchFor = getCurrentText()
+    loadNewImage()
+} catch (error) {
+	console.error(error);
+}
+}
+
+//gif stuff
+const loadNewImage = () => {
+    const gifImage = document.getElementById('gifImage')
+    fetch(`https://api.giphy.com/v1/gifs/translate?api_key=OgByqKc6eOHLhIPmaUX8eaWUTPstl8DL&s=${searchFor}`, {
+    mode: 'cors'
+  })
+.then((res) => {
+    res.json().then((data) => {
+        console.log(data.data.images.original.url)
+        imageSrc = data.data.images.original.url
+        gifImage.src = imageSrc
+    })
+})
+.catch((err) => {
+    console.log('no this did not work')
+})
+}
+
+
 
 metricBtn.addEventListener('change', () => {
    isMetric = handleMetric()
@@ -66,32 +119,7 @@ handleCityValue()
 // getCurrentData()
 
 
-async function getForecastData() {
-    const url = `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${city}`;
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': 'fc4b3c660cmsh267568b5d8c8b79p1cadfcjsnd7198f8a0b37',
-		'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
-	}
-};
 
-try {
-	const response = await fetch(url, options);
-	const result = await response.text()
-    let string = `{"key": ${result}}`
-    let object = JSON.parse(string)
-    data.length = 0
-    data.push(object)
-    console.log(data)   
-    displayToday()
-    displayHourly()
-    graphDailyTemp()
-    changeDivColor()
-} catch (error) {
-	console.error(error);
-}
-}
 
 function handleDegreeSymbol() {
     let tempUnit
@@ -245,8 +273,6 @@ function changeDivColor() {
 }
 
 function graphDailyTemp() {
-
-
    const temperatures = hourlyForecast.map(item => item.temp)
    const time = hourlyForecast.map(item => item.time)
 const date = hourlyForecast[0].date
@@ -298,6 +324,7 @@ function getColorsByTemp(temperature) {
 }
 
 getForecastData()
+
 
 function getCityName() {
     let cityName = data[0].key.location.name
