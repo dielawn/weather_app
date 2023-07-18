@@ -6,6 +6,7 @@ const forecastDiv = document.getElementById('forecastDiv')
 const metricBtn = document.getElementById('metricBtn')
 const standardBtn = document.getElementById('standardBtn')
 const gifDiv = document.getElementById('gifDiv')
+const scaleDiv = document.getElementById('scaleDiv')
 
 
 let city 
@@ -42,6 +43,7 @@ try {
     changeDivColor()
     searchFor = getCurrentText()
     loadNewImage()
+    createTempScale()
 } catch (error) {
 	console.error(error);
 }
@@ -84,7 +86,9 @@ metricBtn.addEventListener('change', () => {
     displayDate()
     displayToday()
     displayHourly()
+    createTempScale()
     graphDailyTemp()
+
     
 })
 
@@ -94,6 +98,7 @@ standardBtn.addEventListener('change', () => {
     displayDate()
     displayToday()
     displayHourly()
+    createTempScale()
     graphDailyTemp()
    
 })
@@ -122,6 +127,8 @@ searchBtn.addEventListener('click', () => {
     handleCityValue()
     getForecastData()
     displayToday()
+    createTempScale()
+    graphDailyTemp()
 
 })
 
@@ -324,16 +331,62 @@ function getColorsByTemp(temperature) {
     let hotTemp
     if (isMetric) {
         coldTemp = 0;
-        hotTemp = 32;
+        hotTemp = 35;
     } else {
-        coldTemp = 34;
-        hotTemp = 90;
+        coldTemp = 32;
+        hotTemp = 100;
     }
     const tempPercentage = (temperature - coldTemp) / (hotTemp - coldTemp)
     const hue = (1 - tempPercentage) * 240
     const color = `hsl(${hue}, 100%, 50%)`
     // console.log(color)
     return color
+}
+
+function createTempScale() {
+   let prevTempScale = document.getElementById('tempScale')
+   if (prevTempScale) {
+    prevTempScale.remove()
+   }
+  const tempScale = document.createElement('div')
+  tempScale.classList.add('tempScale')
+  tempScale.id = 'tempScale'
+  let coldTempTxt
+  let medTempTxt
+  let hotTempTxt
+  let coldTemp
+  let medTemp
+  let hotTemp
+  if (isMetric) {
+      coldTempTxt = `0${handleDegreeSymbol()}`;
+      medTempTxt = `17${handleDegreeSymbol()}`
+      hotTempTxt = `35${handleDegreeSymbol()}`;
+      coldTemp = getColorsByTemp(0)
+      medTemp = getColorsByTemp(17)
+      hotTemp = getColorsByTemp(35)
+  } else {
+      coldTempTxt = `32${handleDegreeSymbol()}`;
+      medTempTxt = `75${handleDegreeSymbol()}`
+      hotTempTxt = `100${handleDegreeSymbol()}`;
+      coldTemp = getColorsByTemp(32)
+      medTemp = getColorsByTemp(75)
+      hotTemp = getColorsByTemp(100)
+  }
+  
+  tempScale.style.background = `linear-gradient(to right, ${coldTemp} 0%, ${medTemp} 50%, ${hotTemp} 100%)`
+  scaleDiv.appendChild(tempScale)
+   //add text to scale
+  const coldTxtEl = document.createElement('p')
+  coldTxtEl.textContent = coldTempTxt
+   const medTxtEl = document.createElement('p')
+   medTxtEl.textContent = medTempTxt
+   const hotTxtEl = document.createElement('p')
+   hotTxtEl.textContent = hotTempTxt
+   tempScale.appendChild(coldTxtEl)
+   tempScale.appendChild(medTxtEl)
+   tempScale.appendChild(hotTxtEl)
+  
+  
 }
 
 getForecastData()
