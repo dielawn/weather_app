@@ -182,6 +182,32 @@ function displayDate() {
     todayDiv.appendChild(dateElment)
 }
 
+function getCurrentHour() {
+    const currentDate = new Date();
+    const hour = currentDate.getHours()
+    return hour
+
+}
+
+function checkIsDay() {
+    console.log(hourlyForecast)
+   for (const hr of hourlyForecast) {
+    
+    let hourString = hr.time.slice(0, 2)
+    hourString = Number(hourString)
+    let curentHour = getCurrentHour()
+    if (hourString === curentHour) {
+        if (hr.isday) {
+            containerDiv.classList.add('dayTime')
+            containerDiv.classList.remove('nightTime')
+        } else {
+            containerDiv.classList.add('nightTime')
+            containerDiv.classList.remove('dayTime')
+        }   
+    }
+   }
+}
+
 function displayHourly() {
     getHourlyData()
     console.log(hourlyForecast)
@@ -223,10 +249,10 @@ function graphDailyTemp() {
 
    const temperatures = hourlyForecast.map(item => item.temp)
    const time = hourlyForecast.map(item => item.time)
-
+const date = hourlyForecast[0].date
    const canvas = document.getElementById('chartCanvas')
    const ctx = canvas.getContext('2d')
-
+console.log(date)
    if (previousChart) {
     previousChart.destroy()
    }
@@ -236,7 +262,7 @@ function graphDailyTemp() {
     data: {
         labels: time,
         datasets: [{
-            label: 'Todays Temperature',
+            label: `Todays Temperature ${date}`,
             data: temperatures,
             borderColor: 'black',
             fill: false,
@@ -267,7 +293,7 @@ function getColorsByTemp(temperature) {
     const tempPercentage = (temperature - coldTemp) / (hotTemp - coldTemp)
     const hue = (1 - tempPercentage) * 240
     const color = `hsl(${hue}, 100%, 50%)`
-    console.log(color)
+    // console.log(color)
     return color
 }
 
@@ -371,6 +397,8 @@ function getHourlyData() {
         isday: is_day
     })
     }
+    checkIsDay()
+    getCurrentHour()
     return hourlyForecast
 }
 

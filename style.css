@@ -24,26 +24,28 @@
     justify-content: center;
     align-items: center;
 }
+.buttonDiv {
+    margin: 40px 0 10px 0;
+}
 .icon{
-    width: 100px;
+    max-width: 100px;
 }
 .todayDiv {
-    width: 50vw;
+    width: 60vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);
-    
+    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);    
     margin:  20px;
     padding: 20px;
-
+    background-color: white;
 }
 
 .forecastDiv{
-width: 100%;
-justify-content: center;
-margin-right: 30px;
+    width: 100%;
+    justify-content: center;
+    margin-right: 30px;
 }
 
 .hourDiv {
@@ -58,5 +60,18 @@ margin-right: 30px;
 .chartCanvas {
     max-width: 500px;
     max-height: 300px;
+    background-color: white;
+}
 
+.chartCanvas{
+    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);    
+    margin:  50px;
+    padding: 20px;
+}
+.dayTime {
+    background-color: rgba(231, 240, 52, 0.461)
+}
+.nightTime {
+    background-color: rgba(0, 0, 0, 0.5);
+    
 }
