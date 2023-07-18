@@ -5,6 +5,7 @@ const todayDiv = document.getElementById('todayDiv')
 const forecastDiv = document.getElementById('forecastDiv')
 const metricBtn = document.getElementById('metricBtn')
 const standardBtn = document.getElementById('standardBtn')
+const gifDiv = document.getElementById('gifDiv')
 
 
 let city 
@@ -15,7 +16,6 @@ let previousChart = null;
 
 let imageSrc
 let searchFor;
-// let searchFor = getCurrentText()
 
 //weather data
 async function getForecastData() {
@@ -36,7 +36,7 @@ try {
     data.length = 0
     data.push(object)
     console.log(data)   
-    displayToday()
+    displayToday()    
     displayHourly()
     graphDailyTemp()
     changeDivColor()
@@ -57,7 +57,7 @@ const loadNewImage = () => {
     res.json().then((data) => {
         console.log(data.data.images.original.url)
         imageSrc = data.data.images.original.url
-        gifImage.src = imageSrc
+        createImageEl(imageSrc)
     })
 })
 .catch((err) => {
@@ -65,6 +65,17 @@ const loadNewImage = () => {
 })
 }
 
+function createImageEl(source) {
+    let prevGif = document.getElementById('newGif')
+    if (prevGif) {
+        prevGif.remove()
+    }
+    const newGif = document.createElement('img')
+    newGif.classList.add('newGif')
+    newGif.id = 'newGif'
+    newGif.src = source
+    gifDiv.appendChild(newGif)
+}
 
 
 metricBtn.addEventListener('change', () => {
@@ -169,7 +180,7 @@ function displayToday() {
     ]
 
     let prevElements = document.querySelectorAll('p')
-    let prevIcon = document.querySelector('img')
+    let prevIcon = document.getElementById('iconImg')
 
     if(prevElements.length > 0) {
         prevElements.forEach(element => {
@@ -181,9 +192,11 @@ function displayToday() {
         prevIcon.remove()
     }
     const iconImg = document.createElement('img')
+    iconImg.id = 'iconImg'
     iconImg.src = getCurrentIcon()
     iconImg.classList.add('icon')
     todayDiv.appendChild(iconImg)
+    
     today.forEach(item => {   
     const textElement = document.createElement('p')
     if (typeof item === 'object') {

@@ -14,17 +14,16 @@
     <div class="container" id="container">
         <div class="buttonDiv" id="buttonDiv">
             <input type="text" class="searchInput" id="searchInput" placeholder="Search weather by location">
-            <button class="searchBtn" id="searchBtn">Search</button>
-          
+            <button class="searchBtn" id="searchBtn">Search</button>          
                 <label for="metricBtn">Metric</label>
                 <input type="radio" id="metricBtn" name="isMetricBtn" value="isMetric" checked>
                 <label for="standardBtn">US Standard</label>
-                <input type="radio" id="standardBtn" name="isMetricBtn" value="notMetric">
-
-          
-           
+                <input type="radio" id="standardBtn" name="isMetricBtn" value="notMetric">           
         </div>
-        <div class="todayDiv" id="todayDiv"></div>
+        
+        <div class="todayDiv" id="todayDiv">
+            <div class="gifDiv" id="gifDiv"></div>
+        </div>
         <canvas class="chartCanvas" id="chartCanvas"></canvas>
 
         <div class="forecastDiv" id="forecastDiv"></div>
