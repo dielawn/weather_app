@@ -12,6 +12,7 @@ const scaleDiv = document.getElementById('scaleDiv')
 let city 
 const data = []
 const gifData = []
+let sunMoonData = null
 let isMetric = handleMetric()
 let previousChart = null;
 
@@ -44,6 +45,8 @@ try {
     searchFor = getCurrentText()
     loadNewImage()
     createTempScale()
+    getSunMoonData()
+    console.log(sunMoonData)
 } catch (error) {
 	console.error(error);
 }
@@ -136,6 +139,18 @@ searchBtn.addEventListener('click', () => {
 handleCityValue()
 // getCurrentData()
 
+function getSunMoonData() {
+    
+   let sunMoonForecast = {
+        sunrise: data[0].key.forecast.forecastday[0].astro.sunrise,
+        sunset:  data[0].key.forecast.forecastday[0].astro.sunset,
+        moonrise: data[0].key.forecast.forecastday[0].astro.moonrise,
+        moonset: data[0].key.forecast.forecastday[0].astro.moonset,
+        moonPhase: data[0].key.forecast.forecastday[0].astro.moon_phase
+    }
+  sunMoonData = sunMoonForecast
+  return sunMoonData
+}
 
 
 
@@ -366,7 +381,7 @@ function createTempScale() {
       hotTemp = getColorsByTemp(35)
   } else {
       coldTempTxt = `32${handleDegreeSymbol()}`;
-      medTempTxt = `75${handleDegreeSymbol()}`
+      medTempTxt = `68${handleDegreeSymbol()}`
       hotTempTxt = `100${handleDegreeSymbol()}`;
       coldTemp = getColorsByTemp(32)
       medTemp = getColorsByTemp(75)
