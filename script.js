@@ -12,7 +12,7 @@ const scaleDiv = document.getElementById('scaleDiv')
 let city 
 const data = []
 const gifData = []
-let sunMoonData = null
+let sunMoonData = []
 let isMetric = handleMetric()
 let previousChart = null;
 
@@ -45,8 +45,7 @@ try {
     searchFor = getCurrentText()
     loadNewImage()
     createTempScale()
-    getSunMoonData()
-    console.log(sunMoonData)
+    renderSunMoonData()
 } catch (error) {
 	console.error(error);
 }
@@ -140,16 +139,22 @@ handleCityValue()
 // getCurrentData()
 
 function getSunMoonData() {
+
+    let sunrise = data[0].key.forecast.forecastday[0].astro.sunrise
+    let sunset = data[0].key.forecast.forecastday[0].astro.sunset
+    let moonrise = data[0].key.forecast.forecastday[0].astro.moonrise
+    let moonset = data[0].key.forecast.forecastday[0].astro.moonset
+    let moonPhase = data[0].key.forecast.forecastday[0].astro.moon_phase
+    sunMoonData.length = 0
     
-   let sunMoonForecast = {
-        sunrise: data[0].key.forecast.forecastday[0].astro.sunrise,
-        sunset:  data[0].key.forecast.forecastday[0].astro.sunset,
-        moonrise: data[0].key.forecast.forecastday[0].astro.moonrise,
-        moonset: data[0].key.forecast.forecastday[0].astro.moonset,
-        moonPhase: data[0].key.forecast.forecastday[0].astro.moon_phase
-    }
-  sunMoonData = sunMoonForecast
-  return sunMoonData
+    sunMoonData.push([`Sunrise: ${sunrise}`, `Sunset: ${sunset}`, `Moonrise: ${moonrise}`, `Moonset: ${moonset}`, `Moon phase: ${moonPhase}` ])
+  
+}
+
+function renderSunMoonData() {
+    getSunMoonData()
+    console.log(sunMoonData)
+    
 }
 
 
