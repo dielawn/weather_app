@@ -13,12 +13,15 @@
 <body>
     <div class="container" id="container">
         <div class="buttonDiv" id="buttonDiv">
-            <input type="text" class="searchInput" id="searchInput" placeholder="Search weather by location">
-            <button class="searchBtn" id="searchBtn">Search</button>          
-                <label for="metricBtn">Metric</label>
+            <div class="searchDiv">
+                <input type="text" class="searchInput" id="searchInput" placeholder="Search weather by location">
+                <button class="searchBtn" id="searchBtn">Search</button> 
+            </div>         
+            <div class="radioBtns"> <label for="metricBtn">Metric</label>
                 <input type="radio" id="metricBtn" name="isMetricBtn" value="isMetric" checked>
                 <label for="standardBtn">US</label>
-                <input type="radio" id="standardBtn" name="isMetricBtn" value="notMetric">           
+                <input type="radio" id="standardBtn" name="isMetricBtn" value="notMetric">       
+            </div>    
         </div>
         
         <div class="todayDiv" id="todayDiv">

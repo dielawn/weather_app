@@ -151,36 +151,31 @@ function renderSunMoonData() {
     }    
 }
 
-
-
 function handleDegreeSymbol() {
     let tempUnit
+    tempUnit = 'f'
     if (isMetric) {
         tempUnit = 'c'
-    } else {
-        tempUnit = 'f'
-    }
+    } 
     let degreeSymbol = `\u00B0${tempUnit}`
     return degreeSymbol
 }
 
 function handleInOrMm() {
     let measureUnit 
+    measureUnit = 'in'
     if (isMetric) {
         measureUnit = 'mm'
-    } else {
-        measureUnit = 'in'
-    }
+    } 
     return measureUnit
 }
 
 function handleMphOrKph() {
     let speedUnit 
+    speedUnit = 'mph'
     if (isMetric) {
         speedUnit = 'kph'
-    } else {
-        speedUnit = 'mph'
-    }
+    } 
     return speedUnit
 }
 
@@ -336,12 +331,12 @@ function graphDailyTemp() {
 function getColorsByTemp(temperature) {
     let coldTemp
     let hotTemp
+    
     if (isMetric) {
         coldTemp = 0;
         hotTemp = 35;
     } else {
-        coldTemp = 32;
-        hotTemp = 100;
+        
     }
     const tempPercentage = (temperature - coldTemp) / (hotTemp - coldTemp)
     const hue = (1 - tempPercentage) * 240
