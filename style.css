@@ -14,7 +14,7 @@
     flex-direction: column;
 }
 
-.grid8Cols {
+.gridCols {
     display: grid;
     grid-template-columns: repeat(6, 90px);
 }
@@ -86,4 +86,15 @@
     margin: 10px;
     width: 60vw;
     height: 20px;
+}
+.astroDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.5);    
+    margin:  50px;
+    padding: 20px;
+    max-width: 500px;
+    background-color: white;
 }
